@@ -1,0 +1,5 @@
+Simple interface
+AI must have memory
+act as a DM
+Have access to a "quest journal" and "player stats"
+Should be able to play an rpg at a compotent level

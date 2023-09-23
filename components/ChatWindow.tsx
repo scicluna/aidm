@@ -2,6 +2,7 @@
 import { Message, useChat } from 'ai/react';
 import { useEffect, useRef, useState } from 'react';
 import { PlayerBlock } from '@/utils/player';
+import { updatePlayer } from '@/utils/updatePlayer';
 import {
     Sheet,
     SheetContent,
@@ -11,10 +12,17 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 
-export default function Chatwindow() {
-    const [player, setPlayer] = useState<PlayerBlock>(new PlayerBlock())
+type ChatWindowProps = {
+    hero: PlayerBlock | null
+}
+
+export default function Chatwindow({ hero }: ChatWindowProps) {
+    const [player, setPlayer] = useState<PlayerBlock>(hero ?? new PlayerBlock())
     const { messages, input, handleInputChange, handleSubmit, isLoading, } = useChat({
-        onFinish: (message => updatePlayer(message, player))
+        onFinish: (async message => {
+            const newPlayer = await updatePlayer(message, player)
+            setPlayer(newPlayer)
+        })
     });
 
     const chatContainer = useRef<HTMLDivElement>(null)
@@ -24,7 +32,7 @@ export default function Chatwindow() {
 
         const { scrollTop, scrollHeight, clientHeight } = chatContainer.current;
         const diff = scrollHeight - (scrollTop + clientHeight);
-        const threshold = 30;
+        const threshold = 100;
         const isAtBottom = diff <= threshold;
 
         if (isAtBottom) {
@@ -34,59 +42,6 @@ export default function Chatwindow() {
             });
         }
     }, [messages]);
-
-    async function updatePlayer(message: Message, player: PlayerBlock) {
-        if (message && message.role === 'assistant') {
-            // React to "Level Up"
-            if (message.content.includes("Level Up")) {
-                player.lvl += 1;
-            }
-
-            // React to "Loot: {object}"
-            const lootMatch = message.content.match(/Loot: \{item: (.*?), quantity: (\d+), type: (.*?)\}/);
-            if (lootMatch) {
-                const item = {
-                    item: lootMatch[1].trim(),
-                    quantity: parseInt(lootMatch[2], 10),
-                    type: lootMatch[3].trim()
-                };
-                player.addToInventory(item);
-            }
-
-
-            // React to "Entry: ..."
-            const entryMatch = message.content.match(/Entry: (.*)/);
-            if (entryMatch) {
-                const entry = entryMatch[1];
-                player.journal.push({ number: player.journal.length, entry });
-            }
-        }
-
-        await fetch('/api/player', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                str: player.str,
-                dex: player.dex,
-                con: player.con,
-                int: player.int,
-                wis: player.wis,
-                cha: player.cha,
-                lvl: player.lvl,
-                hp: player.hp,
-                ac: player.ac,
-                atk: player.atk,
-                dmg: player.dmg,
-                wpn: player.wpn,
-                armor: player.armor,
-                inventory: player.inventory,
-                journal: player.journal
-            })
-        })
-        setPlayer(player)
-    }
 
     return (
         <div className="mx-auto w-full flex flex-col relative">
@@ -106,6 +61,7 @@ export default function Chatwindow() {
 
             <form onSubmit={handleSubmit} className='h-[10dvh] fixed w-full bottom-0 flex gap-4 justify-center items-center'>
                 <input
+                    autoComplete='off'
                     className="border border-gray-300 rounded shadow-xl p-2 w-1/3"
                     value={input}
                     onChange={handleInputChange}
@@ -122,7 +78,7 @@ export default function Chatwindow() {
                         <SheetDescription>
                             <div className='flex gap-8'>
                                 <div className='flex flex-col text-justify'>
-                                    <SheetTitle>Hero</SheetTitle>
+                                    <SheetTitle>Abilities</SheetTitle>
                                     <p>str: {player.str} ({Math.floor((player.str - 10) / 2)})</p>
                                     <p>dex: {player.dex} ({Math.floor((player.dex - 10) / 2)})</p>
                                     <p>con: {player.con} ({Math.floor((player.con - 10) / 2)})</p>
@@ -141,13 +97,13 @@ export default function Chatwindow() {
                                 </div>
                                 <div className='flex flex-col text-justify w-1/2 flex-wrap'>
                                     <SheetTitle>Inventory</SheetTitle>
-                                    {player.inventory.map(item => (
+                                    {player.inventory && player.inventory.map(item => (
                                         <p key={item.item} className='w-fit'> {item.quantity}x {item.item} {item.type} {item.stat ?? null}</p>
                                     ))}
                                 </div>
                                 <div className='flex flex-col text-justify overflow-auto'>
                                     <SheetTitle>Journal</SheetTitle>
-                                    {player.journal.map(entry => (
+                                    {player.journal && player.journal.map(entry => (
                                         <p key={entry.number}>{entry.entry}</p>
                                     ))}
                                 </div>

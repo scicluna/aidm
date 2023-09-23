@@ -88,4 +88,23 @@ export class PlayerBlock {
         // Automatically equip the best gear after adding the item
         this.equipBestGear();
     }
+
+    removeFromInventory(itemName: string, quantity: number): void {
+        // Find the item in the inventory
+        const existingItem = this.inventory.find(i => i.item === itemName);
+        if (!existingItem) {
+            console.warn(`Item "${itemName}" not found in inventory.`);
+            return;
+        }
+
+        // Reduce the quantity or remove the item entirely
+        if (quantity >= existingItem.quantity) {
+            this.inventory = this.inventory.filter(i => i.item !== itemName);
+        } else {
+            existingItem.quantity -= quantity;
+        }
+
+        // Re-evaluate the best gear in case the removed item was equipped
+        this.equipBestGear();
+    }
 }

@@ -4,6 +4,7 @@ const InventorySchema = new Schema({
     item: String,
     quantity: Number,
     type: String,
+    stat: Number
 });
 
 const JournalSchema = new Schema({

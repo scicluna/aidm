@@ -3,6 +3,7 @@ import { connectToDB } from "@/utils/dbconnect";
 
 export async function GET(req: Request) {
     try {
+        console.log("get player")
         await connectToDB();
         const response = await Player.find()
 
@@ -16,50 +17,26 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
     const parsedreq = await req.json()
-    const { str, dex, con, int, wis, cha, lvl, hp, armor, wpn, atk, dmg, inventory, journal } = parsedreq
+    const { str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal } = parsedreq
 
     try {
         await connectToDB()
-        const player = await Player.findOne()
-        console.log(player)
-        if (!player) {
+        const playerRecord = await Player.findOne()
+        if (!playerRecord) {
+            console.log("build new character")
             const response = await Player.create({
-                str,
-                dex,
-                con,
-                int,
-                wis,
-                cha,
-                lvl,
-                hp,
-                armor,
-                wpn,
-                atk,
-                dmg,
-                inventory,
-                journal
+                str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal
             })
             return new Response(JSON.stringify(response), { status: 200 })
         } else {
-            const response = await Player.findByIdAndUpdate({ _id: player._id }, {
-                str,
-                dex,
-                con,
-                int,
-                wis,
-                cha,
-                lvl,
-                hp,
-                armor,
-                wpn,
-                atk,
-                dmg,
-                inventory,
-                journal
+            console.log('update')
+            const response = await Player.findByIdAndUpdate({ _id: playerRecord._id }, {
+                str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal
             }, { new: true })
             return new Response(JSON.stringify(response), { status: 200 })
         }
     } catch (err) {
-        return new Response('Failed to post chat', { status: 500 })
+        console.log(err)
+        return new Response('Failed to post character', { status: 500 })
     }
 }

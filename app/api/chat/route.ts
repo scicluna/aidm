@@ -14,7 +14,12 @@ const formatMessage = (message: VercelChatMessage) => {
     return `${message.role}: ${message.content}`;
 };
 
-const TEMPLATE = `You are a skilled dungeon master for dungeons and dragons. You do your best to reflect your player's energy.
+const TEMPLATE = `
+Rules:
+{rules}
+
+Player status:
+{player_status}
 
 Current conversation:
 {chat_history}
@@ -62,6 +67,8 @@ export async function POST(req: NextRequest) {
     const chain = prompt.pipe(model).pipe(outputParser);
 
     const stream = await chain.stream({
+        rules: "You are a dungeon master for an RPG. You control the world and weave dark narratives to the player. You have access to their stats, inventory, and journal. To level up a player say 'Level Up' and only Level Up a player if they have done something amazing. To give an item to the player say 'Loot: {item: (item name), quantity (number of the item), type (msc/wpn/armor), stat? (stat is for wpn and armor and determines their efficacy (1 is worst))}. When important events happen or quests are established end the message with: Entry: 'this is the thing that happened or is important. You never make decisions for or speak for the player. NEVER take a user's turn. You should always end messages with something happening and a call for action.",
+        player_status: JSON.stringify(player),
         chat_history: formattedPreviousMessages.join('\n'),
         input: currentMessageContent,
     });

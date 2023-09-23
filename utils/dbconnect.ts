@@ -12,7 +12,7 @@ export const connectToDB = async () => {
     try {
         if (!process.env.MONGODB_URI) return alert("DB not Found")
         await mongoose.connect(process.env.MONGODB_URI, {
-            dbName: 'proxichat',
+            dbName: 'aidm',
         })
         isConnected = true
         console.log("MongoDB connected")

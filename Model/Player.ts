@@ -1,5 +1,16 @@
 import { Schema, model, models } from "mongoose";
 
+const InventorySchema = new Schema({
+    item: String,
+    quantity: Number,
+    type: String,
+});
+
+const JournalSchema = new Schema({
+    number: Number,
+    entry: String
+});
+
 const PlayerSchema = new Schema({
     str: {
         type: Number
@@ -37,20 +48,19 @@ const PlayerSchema = new Schema({
     dmg: {
         type: Number
     },
-    inventory: [{
-        item: String,
-        quantity: Number,
-        type: String,
-    }],
-    journal: [{
-        number: Number,
-        entry: String
-    }]
+    ac: {
+        type: Number
+    },
+    inventory: [InventorySchema],
+    journal: [JournalSchema],
 },
     {
         timestamps: true
     }
 );
 
-const Player = models.Player || model("player", PlayerSchema);
+
+
+
+const Player = models.Player || model("Player", PlayerSchema);
 export default Player

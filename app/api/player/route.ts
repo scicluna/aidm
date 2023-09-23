@@ -14,7 +14,7 @@ export async function GET(req: Request) {
     }
 }
 
-export async function Post(req: Request) {
+export async function POST(req: Request) {
     const parsedreq = await req.json()
     const { str, dex, con, int, wis, cha, lvl, hp, armor, wpn, atk, dmg, inventory, journal } = parsedreq
 
@@ -23,7 +23,7 @@ export async function Post(req: Request) {
         const player = await Player.findOne()
         console.log(player)
         if (!player) {
-            const response = Player.create({
+            const response = await Player.create({
                 str,
                 dex,
                 con,
@@ -41,7 +41,7 @@ export async function Post(req: Request) {
             })
             return new Response(JSON.stringify(response), { status: 200 })
         } else {
-            const response = Player.updateOne({ _id: player._id }, {
+            const response = await Player.findByIdAndUpdate({ _id: player._id }, {
                 str,
                 dex,
                 con,
@@ -56,7 +56,7 @@ export async function Post(req: Request) {
                 dmg,
                 inventory,
                 journal
-            })
+            }, { new: true })
             return new Response(JSON.stringify(response), { status: 200 })
         }
     } catch (err) {

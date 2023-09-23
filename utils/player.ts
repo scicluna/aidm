@@ -1,7 +1,7 @@
 import rollDice from "./diceroller.js"
 
 
-export class Player {
+export class PlayerBlock {
     str: number;
     dex: number;
     con: number;
@@ -10,7 +10,7 @@ export class Player {
     cha: number;
     lvl: number;
     armor: number;
-    weapon: number;
+    wpn: number;
     inventory: { item: string, quantity: number, type: string, stat?: number }[]
     journal: { number: number, entry: string }[]
 
@@ -22,9 +22,9 @@ export class Player {
         this.wis = rollDice('4d6d1');
         this.cha = rollDice('4d6d1');
         this.armor = 0
-        this.weapon = 1
+        this.wpn = 1
         this.lvl = 1
-        this.inventory = [{ item: "clothes", quantity: 1, type: "msc" }, { item: "dagger", quantity: 1, type: "wpn", stat: 1 }];
+        this.inventory = [{ item: "clothes", quantity: 1, type: "msc" }, { item: "dagger", quantity: 1, type: "wpn" }];
         this.journal = [{ number: 0, entry: "And so I headed out on my first adventure! I wonder what I will find!" }];
     }
 
@@ -41,7 +41,7 @@ export class Player {
     }
 
     get dmg(): number {
-        return Math.max(this.str, this.dex) + this.weapon
+        return Math.max(this.str, this.dex) + this.wpn
     }
 
     equipBestGear(): void {
@@ -66,7 +66,7 @@ export class Player {
 
         // Update the weapon and armor properties
         if (bestWeapon) {
-            this.weapon = bestWeapon.stat || 0; // Default to 1 if no stat is provided
+            this.wpn = bestWeapon.stat || 0; // Default to 1 if no stat is provided
         }
         if (bestArmor) {
             this.armor = bestArmor.stat || 0; // Default to 0 if no stat is provided

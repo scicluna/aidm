@@ -1,13 +1,13 @@
 "use client"
 import { useChat } from 'ai/react';
 import { useEffect, useRef, useState } from 'react';
-import { usePlayerUpdates } from '@/hooks/usePlayerUpdates';
-import { Player } from '@/utils/player';
+import { PlayerBlock } from '@/utils/player';
 
 export default function Chatwindow() {
-    const [player, setPlayer] = useState<Player>(new Player())
-    const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat();
-    usePlayerUpdates(messages, player)
+    const [player, setPlayer] = useState<PlayerBlock>(new PlayerBlock())
+    const { messages, input, handleInputChange, handleSubmit, isLoading, } = useChat({
+        onFinish: (message => console.log('done'))
+    });
 
     const chatContainer = useRef<HTMLDivElement>(null)
 

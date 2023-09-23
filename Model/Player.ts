@@ -41,7 +41,6 @@ const PlayerSchema = new Schema({
         item: String,
         quantity: Number,
         type: String,
-        stat: Number
     }],
     journal: [{
         number: Number,

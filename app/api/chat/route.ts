@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
     const currentMessageContent = messages[messages.length - 1].content;
 
-    const playerJson = await fetch("/api/player")
+    const playerJson = await fetch("http://localhost:3000/api/player", { method: "GET" })
     const player = await playerJson.json()
     console.log(player)
 

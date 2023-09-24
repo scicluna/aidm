@@ -1,5 +1,7 @@
 # AIDM: Play DND with chat GPT!
 
+![image](./public/aidmimage.png)
+
 ## Features
 Persistant Adventure: Through the journaling and character statblock system, you can have adventures with baked-in continuity!
 

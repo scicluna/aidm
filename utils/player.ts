@@ -27,8 +27,8 @@ export class PlayerBlock {
     inventory: { item: string, quantity: number, type: string, stat?: number }[]
     journal: { number: number, entry: string }[]
 
-    constructor(heroData: HeroData = null) {
-        if (!heroData) {
+    constructor(heroData: HeroData) {
+        if (heroData == null) {
             this.str = rollDice('4d6d1');
             this.dex = rollDice('4d6d1');
             this.con = rollDice('4d6d1');

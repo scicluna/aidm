@@ -1,5 +1,4 @@
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import Error from "next/error";
 
 export async function GET(req: Request, { params }: Params) {
     const { imageid } = params
@@ -18,6 +17,7 @@ export async function GET(req: Request, { params }: Params) {
 
     while (attempts < maxAttempts) {
         try {
+            console.log("trying")
             const imageUrl = await fetch(url, options);
             const bigUrl = await imageUrl.json();
 
@@ -32,6 +32,6 @@ export async function GET(req: Request, { params }: Params) {
         attempts++;
         await new Promise(resolve => setTimeout(resolve, 3000)); // wait for 2 seconds
     }
-
+    console.error("TIMEOUT")
     return new Response('Request Timeout', { status: 400 })
 }

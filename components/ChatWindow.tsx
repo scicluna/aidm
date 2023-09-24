@@ -1,5 +1,5 @@
 "use client"
-import { useChat } from 'ai/react';
+import { Message, useChat } from 'ai/react';
 import { useEffect, useRef, useState } from 'react';
 import { PlayerBlock } from '@/utils/player';
 import { updatePlayer } from '@/utils/updatePlayer';
@@ -17,14 +17,20 @@ export default function Chatwindow({ heroData }: ChatWindowProps) {
     const [image, setImage] = useState<string | null>(null)
     const [imageLoading, setImageLoading] = useState(false)
     const { messages, input, handleInputChange, handleSubmit, isLoading, } = useChat({
-        onFinish: (async message => {
+        onFinish: (async (message: Message) => {
             const newPlayer = await updatePlayer(message, player)
             setPlayer(newPlayer)
-            const newImage = await buildImage(message.content)
-            setImageLoading(prev => true)
-            const imageUrl = await getImage(newImage)
-            setImage(imageUrl)
-            setImageLoading(prev => false)
+            try {
+                const newImage = await buildImage(message.content)
+                setImageLoading(true)
+                const imageUrl = await getImage(newImage)
+                setImage(imageUrl)
+                setImageLoading(false)
+            }
+            catch (err) {
+                console.log("image failed to load")
+                setImageLoading(false)
+            }
         })
     });
 

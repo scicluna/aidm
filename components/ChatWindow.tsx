@@ -9,19 +9,22 @@ import { buildImage, getImage } from '@/utils/buildImage';
 
 
 type ChatWindowProps = {
-    hero: PlayerBlock | null
+    heroData: any | null
 }
 
-export default function Chatwindow({ hero }: ChatWindowProps) {
-    const [player, setPlayer] = useState<PlayerBlock>(hero ?? new PlayerBlock())
+export default function Chatwindow({ heroData }: ChatWindowProps) {
+    const [player, setPlayer] = useState<PlayerBlock>(new PlayerBlock(heroData))
     const [image, setImage] = useState<string | null>(null)
+    const [imageLoading, setImageLoading] = useState(false)
     const { messages, input, handleInputChange, handleSubmit, isLoading, } = useChat({
         onFinish: (async message => {
             const newPlayer = await updatePlayer(message, player)
             setPlayer(newPlayer)
             const newImage = await buildImage(message.content)
+            setImageLoading(prev => true)
             const imageUrl = await getImage(newImage)
             setImage(imageUrl)
+            setImageLoading(prev => false)
         })
     });
 
@@ -54,8 +57,8 @@ export default function Chatwindow({ hero }: ChatWindowProps) {
                         </div>
                     ))}
                 </div>
-                <div className='bg-gray-400 w-1/2 h-[80dvh] relative'>
-                    <LeonardoImage imageurl={image} />
+                <div className='bg-gray-400 w-1/2 h-[80dvh] relative flex justify-center items-center'>
+                    <LeonardoImage imageurl={image} imageLoading={imageLoading} />
                 </div>
             </div>
             <form onSubmit={handleSubmit} className='h-[10dvh] fixed w-full bottom-0 flex gap-4 justify-center items-center'>

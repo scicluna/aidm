@@ -21,6 +21,8 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             if (lootMatch[4]) {
                 item.stat = parseInt(lootMatch[4], 10);
             }
+            console.log(item)
+            console.log(player)
             player.addToInventory(item);
         }
 

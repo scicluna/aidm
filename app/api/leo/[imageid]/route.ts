@@ -3,7 +3,6 @@ import Error from "next/error";
 
 export async function GET(req: Request, { params }: Params) {
     const { imageid } = params
-    console.log(imageid)
 
     const url = `https://cloud.leonardo.ai/api/rest/v1/generations/${imageid}`;
     const options = {
@@ -31,7 +30,7 @@ export async function GET(req: Request, { params }: Params) {
         }
 
         attempts++;
-        await new Promise(resolve => setTimeout(resolve, 2000)); // wait for 2 seconds
+        await new Promise(resolve => setTimeout(resolve, 3000)); // wait for 2 seconds
     }
 
     return new Response('Request Timeout', { status: 400 })

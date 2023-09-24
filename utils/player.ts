@@ -29,19 +29,19 @@ export class PlayerBlock {
     }
 
     get hp(): number {
-        return 10 + (6 + this.con) * (this.lvl - 1)
+        return 10 + (6 + Math.floor(this.con - 10 / 2)) * (this.lvl - 1)
     }
 
     get ac(): number {
-        return 10 + Math.floor(this.dex / 2) + this.armor
+        return 10 + Math.floor(this.dex - 10 / 2) + this.armor
     }
 
     get atk(): number {
-        return this.lvl + Math.max(this.str, this.dex)
+        return this.lvl + Math.max(Math.floor(this.str - 10 / 2), Math.floor(this.dex - 10 / 2))
     }
 
     get dmg(): number {
-        return Math.max(this.str, this.dex) + this.wpn
+        return Math.max(Math.floor(this.str - 10 / 2), Math.floor(this.dex - 10 / 2)) + this.wpn
     }
 
     equipBestGear(): void {

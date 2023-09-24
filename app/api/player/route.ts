@@ -1,9 +1,9 @@
 import Player from "@/Model/Player";
 import { connectToDB } from "@/utils/dbconnect";
 
+//get the current player (there will only ever be one player)
 export async function GET(req: Request) {
     try {
-        console.log("get player")
         await connectToDB();
         const response = await Player.find()
 
@@ -15,6 +15,7 @@ export async function GET(req: Request) {
     }
 }
 
+//update our player or build a new player.
 export async function POST(req: Request) {
     const parsedreq = await req.json()
     const { str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal } = parsedreq
@@ -23,13 +24,11 @@ export async function POST(req: Request) {
         await connectToDB()
         const playerRecord = await Player.findOne()
         if (!playerRecord) {
-            console.log("build new character")
             const response = await Player.create({
                 str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal
             })
             return new Response(JSON.stringify(response), { status: 200 })
         } else {
-            console.log('update')
             const response = await Player.findByIdAndUpdate({ _id: playerRecord._id }, {
                 str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal
             }, { new: true })

@@ -66,7 +66,10 @@ export async function POST(req: NextRequest) {
      */
     const chain = prompt.pipe(model).pipe(outputParser);
 
-    let ruleSet = `Continue to use the same ruleset. NEVER take a users turn or speak for them
+    //edit these rules for a different type of AI DM
+    //changing the Action List will cause problems
+    let ruleSet =
+        `Continue to use the same ruleset. NEVER take a users turn or speak for them
     Action list:
     To level up a player say '**Level Up**'. Only reward level ups for milestone moments. 
     To give an item to the player say '**Loot: (itemname) x(quantity) (msc|armor|wpn) (stat? if armor or wpn 1 is bad 10 is legendary)**This should happen whenever a player picks up an item or receives loot.
@@ -74,6 +77,9 @@ export async function POST(req: NextRequest) {
     When important events happen or quests are established end the message with: '**Entry: (this is the thing that happened or is important.)**'
     To add additional abilities to the player say '**New Ability: (ability name)**'
     Make sure to take actions when appropriate.`
+
+    //Initial Rules/Prompt
+    //Most important for changing the tone or character of the game
     if (messages.length < 2) {
         ruleSet =
             `You are a dungeon master for an RPG. 

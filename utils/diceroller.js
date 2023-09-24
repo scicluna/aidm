@@ -1,4 +1,4 @@
-//run our program
+//my beautiful ancient javascript dice roller program with the DOM stripped out.
 export default function rollDice(inputString) {
     if (guardChecks(inputString)) return
     const unsplitDiceArrays = diceRaw(inputString) // 3d6, 3d6

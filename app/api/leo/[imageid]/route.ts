@@ -3,6 +3,7 @@ import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 export async function GET(req: Request, { params }: Params) {
     const { imageid } = params
 
+    //fetch options to get our image
     const url = `https://cloud.leonardo.ai/api/rest/v1/generations/${imageid}`;
     const options = {
         method: 'GET',
@@ -12,9 +13,9 @@ export async function GET(req: Request, { params }: Params) {
         }
     };
 
+    //wait for leonardo to finish the image and fetch it
     let attempts = 0;
-    const maxAttempts = 10; // for example, adjust as needed
-
+    const maxAttempts = 10;
     while (attempts < maxAttempts) {
         try {
             console.log("trying")

@@ -1,5 +1,6 @@
 import rollDice from "./diceroller.js"
 
+//mongodb input
 type HeroData = {
     str: number;
     dex: number;
@@ -15,6 +16,7 @@ type HeroData = {
     otherAbilities: string[]
 } | null
 
+//Player class
 export class PlayerBlock {
     str: number;
     dex: number;
@@ -29,6 +31,7 @@ export class PlayerBlock {
     journal: { number: number, entry: string }[]
     otherAbilities: string[]
 
+    //constructor to rehydrate or build anew
     constructor(heroData: HeroData) {
         if (heroData == null) {
             this.str = rollDice('4d6d1');
@@ -60,6 +63,7 @@ export class PlayerBlock {
 
     }
 
+    //derived attributes
     get hp(): number {
         return 10 + (6 + Math.floor((this.con - 10) / 2)) * (this.lvl - 1);
     }
@@ -76,8 +80,8 @@ export class PlayerBlock {
         return Math.max(Math.floor((this.str - 10) / 2), Math.floor((this.dex - 10) / 2)) + this.wpn;
     }
 
+    //not well tested at this time - should use the best wpn or armor in your inventory
     equipBestGear(): void {
-        // Find the best weapon
         const bestWeapon = this.inventory
             .filter(item => item.type === "wpn")
             .reduce<{ item: string, quantity: number, type: string, stat?: number } | null>((best, current) => {
@@ -98,13 +102,14 @@ export class PlayerBlock {
 
         // Update the weapon and armor properties
         if (bestWeapon) {
-            this.wpn = bestWeapon.stat || 0; // Default to 1 if no stat is provided
+            this.wpn = bestWeapon.stat || 0;
         }
         if (bestArmor) {
-            this.armor = bestArmor.stat || 0; // Default to 0 if no stat is provided
+            this.armor = bestArmor.stat || 0;
         }
     }
 
+    //adds an item to the player's inventory
     addToInventory(item: { item: string, quantity: number, type: string, stat?: number }): void {
         // Check if item already exists in inventory
         const existingItem = this.inventory.find(i => i.item === item.item);
@@ -117,11 +122,12 @@ export class PlayerBlock {
             this.inventory.push(item);
         }
 
-        // Automatically equip the best gear after adding the item
         this.equipBestGear();
     }
 
+    //removes an item from the player's inventory
     removeFromInventory(itemName: string, quantity: number): void {
+
         // Find the item in the inventory
         const existingItem = this.inventory.find(i => i.item === itemName);
         if (!existingItem) {
@@ -136,7 +142,6 @@ export class PlayerBlock {
             existingItem.quantity -= quantity;
         }
 
-        // Re-evaluate the best gear in case the removed item was equipped
         this.equipBestGear();
     }
 

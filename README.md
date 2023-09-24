@@ -9,8 +9,6 @@ Do whatever you want: Use the power of modern llms to have the dnd story of your
 
 Customize for your usecase: Easily editable code for changing prompt chains! (api/chat/route.ts -- edit the rules variable)
 
-Unfortunately not deployed: Due to the inherent costs of running an app like this, I am not at this time interested in deploying this app.
-
 ## Tech Stack
 AIDM is built with the following:
 
@@ -44,3 +42,8 @@ I welcome all kinds of contributions! Please feel free to contribute by opening 
 AIDM is open-source and is licensed under the MIT License.
 
 For any further questions, you can reach out to the me directly. Happy coding!
+
+## Other
+If you are interested in starting a new adventure, delete your player document in MongoDB
+
+Due to the inherent costs of running an app like this, I am not at this time interested in deploying this app.

@@ -2,6 +2,8 @@ import { Leonardo } from "@leonardo-ai/sdk";
 import { SdGenerationSchedulers } from "@leonardo-ai/sdk/dist/sdk/models/shared";
 
 export async function POST(req: Request) {
+
+    //fire off our leonardo instance
     const sdk = new Leonardo({
         security: {
             bearerAuth: process.env.LEO_API!
@@ -9,9 +11,12 @@ export async function POST(req: Request) {
     })
 
     const parsedreq = await req.json()
+
+    //handle our prompt
     let { lastMessage } = parsedreq
     let promptMessage = 'dnd art stylized artwork illustration bold-lines art high quality vector illustration landscapes' + lastMessage.slice(0, Math.min(lastMessage.length, 85))
 
+    //call the leonardo api and return the image id
     try {
         const data = await sdk.generation.createGeneration({
             height: 800,

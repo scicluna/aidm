@@ -3,11 +3,13 @@ import { PlayerBlock } from "./player";
 
 export async function updatePlayer(message: Message, player: PlayerBlock) {
     if (message && message.role === 'assistant') {
-        // React to "Level Up"
+
+        // React to **Level Up**
         if (message.content.includes("**Level Up**")) {
             player.lvl += 1;
         }
 
+        // React to **Loot: **
         const lootMatch = message.content.match(/\*\*Loot: (.*?) x(\d+) (\w+)(?: (\d+))?\*\*/);
         if (lootMatch) {
             const item: { item: string, quantity: number, type: string, stat?: number } = {
@@ -20,11 +22,10 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             if (lootMatch[4]) {
                 item.stat = parseInt(lootMatch[4], 10);
             }
-            console.log(item)
-            console.log(player)
             player.addToInventory(item);
         }
 
+        //React to **Remove Item: thing x2**
         const removeMatch = message.content.match(/\*\*Remove Item: (.*?) x(\d+)\*\*/)
         if (removeMatch) {
             const itemName = removeMatch[1].trim();
@@ -32,12 +33,14 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             player.removeFromInventory(itemName, quantityToRemove)
         }
 
+        //React to **Entry: blahblah blah**
         const entryMatch = message.content.match(/\*\*Entry: (.*)\*\*/);
         if (entryMatch) {
             const entry = entryMatch[1];
             player.journal.push({ number: player.journal.length, entry });
         }
 
+        //React to **New Ability: ability**
         const addAbilityMatch = message.content.match(/\*\*New Ability: ([\w\s]+)\*\*/);
         if (addAbilityMatch) {
             const ability = addAbilityMatch[1];
@@ -45,6 +48,7 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
         }
     }
 
+    //update player after each message prompt finishes processing
     await fetch('/api/player', {
         method: "POST",
         headers: {

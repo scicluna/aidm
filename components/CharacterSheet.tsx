@@ -8,7 +8,6 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { PlayerBlock } from "@/utils/player";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 type characterSheetProps = {
     player: PlayerBlock
@@ -21,7 +20,7 @@ export default function CharacterSheet({ player }: characterSheetProps) {
             <SheetContent side={'bottom'} className='h-[20dvh] bg-slate-900'>
                 <SheetHeader>
                     <SheetDescription>
-                        <div className='flex gap-8'>
+                        <div className='flex gap-8 h-[20dvh]'>
                             <div className='flex flex-col text-justify'>
                                 <SheetTitle>Abilities</SheetTitle>
                                 <p>str: {player.str} ({Math.floor((player.str - 10) / 2)})</p>
@@ -40,29 +39,29 @@ export default function CharacterSheet({ player }: characterSheetProps) {
                                 <p>wpn: {player.wpn}</p>
                                 <p>armor: {player.armor}</p>
                             </div>
-                            <div className='flex flex-col text-justify overflow-y-auto'>
+                            <div className='flex flex-col text-justify'>
                                 <SheetTitle>Specials</SheetTitle>
-                                <ScrollArea>
+                                <div>
                                     {player.otherAbilities && player.otherAbilities.map(ability => (
                                         <p key={ability}>{ability}</p>
                                     ))}
-                                </ScrollArea>
+                                </div>
                             </div>
-                            <div className='flex flex-col text-justify flex-wrap overflow-y-auto'>
+                            <div className='flex flex-col text-justify'>
                                 <SheetTitle>Inventory</SheetTitle>
-                                <ScrollArea>
+                                <div>
                                     {player.inventory && player.inventory.map(item => (
                                         <p key={item.item} className='w-fit'> {item.quantity}x {item.item} {item.type} {item.stat ?? null}</p>
                                     ))}
-                                </ScrollArea>
+                                </div>
                             </div>
-                            <div className='flex flex-col text-justify overflow-y-auto'>
+                            <div className='flex flex-col text-justify h-full'>
                                 <SheetTitle>Journal</SheetTitle>
-                                <ScrollArea>
+                                <div className="overflow-y-scroll h-[80%] scrollbar">
                                     {player.journal && player.journal.map(entry => (
                                         <p key={entry.number}>{entry.entry}</p>
                                     ))}
-                                </ScrollArea>
+                                </div>
                             </div>
                         </div>
                     </SheetDescription>

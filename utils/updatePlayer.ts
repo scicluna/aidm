@@ -10,8 +10,10 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
         }
 
         // React to **Loot: **
-        const lootMatch = message.content.match(/\*\*Loot: (.*?) x(\d+) (\w+)(?: (\d+))?\*\*/);
-        if (lootMatch) {
+        const lootPattern = /\*\*Loot: (.*?) x(\d+) \(?(\w+)\)?(?: (\d+))?\*\*/g;
+        let lootMatch;
+
+        while ((lootMatch = lootPattern.exec(message.content)) !== null) {
             const item: { item: string, quantity: number, type: string, stat?: number } = {
                 item: lootMatch[1].trim(),
                 quantity: parseInt(lootMatch[2], 10),
@@ -41,7 +43,7 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
         }
 
         //React to **New Ability: ability**
-        const addAbilityMatch = message.content.match(/\*\*New Ability: ([\w\s]+)\*\*/);
+        const addAbilityMatch = message.content.match(/\*\*New Ability: ([^*]+)\*\*/);
         if (addAbilityMatch) {
             const ability = addAbilityMatch[1];
             player.addAbility(ability)
@@ -70,7 +72,7 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             armor: player.armor,
             inventory: player.inventory,
             journal: player.journal,
-            otherAbilites: player.otherAbilities
+            otherAbilities: player.otherAbilities
         })
     })
     return player

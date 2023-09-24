@@ -45,10 +45,10 @@ export default function Chatwindow({ heroData }: ChatWindowProps) {
 
         const { scrollTop, scrollHeight, clientHeight } = chatContainer.current;
         const diff = scrollHeight - (scrollTop + clientHeight);
-        const threshold = 100;
+        const threshold = 200;
         const isAtBottom = diff <= threshold;
 
-        if (isAtBottom) {
+        if (true) {
             chatContainer.current.scrollTo({
                 top: scrollHeight,
                 behavior: "smooth",
@@ -62,14 +62,14 @@ export default function Chatwindow({ heroData }: ChatWindowProps) {
                 <div className={`mx-auto w-full flex flex-col relative`}>
                     <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
                     <div className='flex gap-2 w-full h-full p-2'>
-                        <ScrollArea className='h-[80dvh] w-2/3 flex flex-col gap-4 overflow-auto dark:text-gray-100 bg-gray-400 dark:bg-slate-700 bg-opacity-30' ref={chatContainer}>
+                        <div className='scrollbar h-[80dvh] w-2/3 flex flex-col gap-4 overflow-auto dark:text-gray-100 bg-gray-400 dark:bg-slate-700 bg-opacity-30' ref={chatContainer}>
                             {messages.map((m, i) => (
                                 <div key={m.id} className='flex flex-col p-2'>
                                     <p className='font-extrabold'>{m.role === 'user' ? 'User: ' : 'AI: '}</p>
                                     <p>{m.content}</p>
                                 </div>
                             ))}
-                        </ScrollArea>
+                        </div>
                         <div className='bg-gray-400 dark:bg-slate-700 w-1/2 h-[80dvh] relative flex justify-center items-center'>
                             <LeonardoImage imageurl={image} imageLoading={imageLoading} />
                         </div>

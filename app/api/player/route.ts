@@ -18,19 +18,19 @@ export async function GET(req: Request) {
 //update our player or build a new player.
 export async function POST(req: Request) {
     const parsedreq = await req.json()
-    const { str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal } = parsedreq
+    const { str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal, otherAbilities } = parsedreq
 
     try {
         await connectToDB()
         const playerRecord = await Player.findOne()
         if (!playerRecord) {
             const response = await Player.create({
-                str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal
+                str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal, otherAbilities
             })
             return new Response(JSON.stringify(response), { status: 200 })
         } else {
             const response = await Player.findByIdAndUpdate({ _id: playerRecord._id }, {
-                str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal
+                str, dex, con, int, wis, cha, lvl, hp, armor, wpn, ac, atk, dmg, inventory, journal, otherAbilities
             }, { new: true })
             return new Response(JSON.stringify(response), { status: 200 })
         }

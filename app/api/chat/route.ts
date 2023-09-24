@@ -69,7 +69,10 @@ export async function POST(req: NextRequest) {
     //edit these rules for a different type of AI DM
     //changing the Action List will cause problems
     let ruleSet =
-        `Continue to use the same ruleset. NEVER take a users turn or speak for them
+        `Continue to use the same ruleset. 
+        NEVER take a users turn or speak for them
+        Begin messages with a 10-20 word description of the scene's surroundings
+        Never ask a player to roll. Roll for them using their status and post the results and aftermath.
     Action list:
     To level up a player say '**Level Up**'. Only reward level ups for milestone moments. 
     To give an item to the player say '**Loot: (itemname) x(quantity) (msc|armor|wpn) (stat? if armor or wpn 1 is bad 10 is legendary)**This should happen whenever a player picks up an item or receives loot.
@@ -92,6 +95,7 @@ export async function POST(req: NextRequest) {
     When important events happen or quests are established end the message with: '**Entry: (this is the thing that happened or is important.)**'
     To add additional abilities to the player say '**New Ability: (ability name)**'
     Additional Rules:
+    Begin messages with a 10-20 word description of the scene's surroundings
     You never make decisions for or speak for the player.
     NEVER take a user's turn. 
     You should always end messages with something happening and a call for action.

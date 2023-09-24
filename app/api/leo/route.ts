@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     //handle our prompt
     let { lastMessage } = parsedreq
-    let promptMessage = 'dnd art stylized artwork illustration bold-lines art high quality vector illustration landscapes' + lastMessage.slice(0, Math.min(lastMessage.length, 85))
+    let promptMessage = 'dnd art stylized artwork illustration bold-lines art high quality vector illustration landscapes ' + lastMessage.slice(0, Math.min(lastMessage.length, 85))
 
     //call the leonardo api and return the image id
     try {

@@ -3,15 +3,8 @@ import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 export async function GET(req: Request, { params }: Params) {
     const { imageid } = params
 
-    //fetch options to get our image
+    //fetch url to get our image
     const url = `https://cloud.leonardo.ai/api/rest/v1/generations/${imageid}`;
-    const options = {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-            authorization: `Bearer ${process.env.LEO_API}`
-        }
-    };
 
     //wait for leonardo to finish the image and fetch it
     let attempts = 0;
@@ -19,7 +12,14 @@ export async function GET(req: Request, { params }: Params) {
     while (attempts < maxAttempts) {
         try {
             console.log("trying")
-            const imageUrl = await fetch(url, options);
+            const imageUrl = await fetch(url, {
+                cache: 'no-store',
+                method: "GET",
+                headers: {
+                    accept: 'application/json',
+                    authorization: `Bearer ${process.env.LEO_API}`
+                }
+            });
             const bigUrl = await imageUrl.json();
 
             if (bigUrl.generations_by_pk.status !== 'PENDING') {
@@ -31,7 +31,7 @@ export async function GET(req: Request, { params }: Params) {
         }
 
         attempts++;
-        await new Promise(resolve => setTimeout(resolve, 3000)); // wait for 2 seconds
+        await new Promise(resolve => setTimeout(resolve, 4000)); // 4 second delay
     }
     console.error("TIMEOUT")
     return new Response('Request Timeout', { status: 400 })

@@ -54,6 +54,9 @@ const PlayerSchema = new Schema({
     },
     inventory: [InventorySchema],
     journal: [JournalSchema],
+    otherAbilities: {
+        type: [String]
+    }
 },
     {
         timestamps: true

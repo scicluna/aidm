@@ -12,6 +12,7 @@ type HeroData = {
     wpn: number;
     inventory: { item: string, quantity: number, type: string, stat?: number }[]
     journal: { number: number, entry: string }[]
+    otherAbilities: string[]
 } | null
 
 export class PlayerBlock {
@@ -26,6 +27,7 @@ export class PlayerBlock {
     wpn: number;
     inventory: { item: string, quantity: number, type: string, stat?: number }[]
     journal: { number: number, entry: string }[]
+    otherAbilities: string[]
 
     constructor(heroData: HeroData) {
         if (heroData == null) {
@@ -40,6 +42,7 @@ export class PlayerBlock {
             this.lvl = 1
             this.inventory = [{ item: "clothes", quantity: 1, type: "msc" }, { item: "dagger", quantity: 1, type: "wpn" }];
             this.journal = [{ number: 0, entry: "And so I headed out on my first adventure! I wonder what I will find!" }];
+            this.otherAbilities = []
         } else {
             this.str = heroData.str;
             this.dex = heroData.dex;
@@ -52,6 +55,7 @@ export class PlayerBlock {
             this.lvl = heroData.lvl
             this.inventory = heroData.inventory
             this.journal = heroData.journal
+            this.otherAbilities = heroData.otherAbilities
         }
 
     }
@@ -134,5 +138,11 @@ export class PlayerBlock {
 
         // Re-evaluate the best gear in case the removed item was equipped
         this.equipBestGear();
+    }
+
+    addAbility(abilityName: string): void {
+        if (abilityName) {
+            this.otherAbilities.push(abilityName)
+        }
     }
 }

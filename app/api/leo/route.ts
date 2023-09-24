@@ -9,13 +9,14 @@ export async function POST(req: Request) {
     })
 
     const parsedreq = await req.json()
-    const { lastMessage } = parsedreq
+    let { lastMessage } = parsedreq
+    let promptMessage = 'dnd art stylized artwork illustration bold-lines art high quality vector illustration landscapes' + lastMessage.slice(0, Math.min(lastMessage.length, 85))
 
     try {
         const data = await sdk.generation.createGeneration({
             height: 800,
             modelId: '6bef9f1b-29cb-40c7-b9df-32b51c1f67d3',
-            prompt: lastMessage.slice(0, Math.min(lastMessage.length, 100)),
+            prompt: promptMessage,
             width: 800,
             promptMagic: true,
             promptMagicVersion: 'v2',

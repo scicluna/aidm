@@ -4,12 +4,11 @@ import { PlayerBlock } from "./player";
 export async function updatePlayer(message: Message, player: PlayerBlock) {
     if (message && message.role === 'assistant') {
         // React to "Level Up"
-        if (message.content.includes("Level Up")) {
+        if (message.content.includes("**Level Up**")) {
             player.lvl += 1;
         }
 
-        // React to "Loot: {object}"
-        const lootMatch = message.content.match(/Loot: \{item: (.*?), quantity: (\d+), type: (.*?)(?:, stat: (\d+))?\}/);
+        const lootMatch = message.content.match(/\*\*Loot: (.*?) x(\d+) (\w+)(?: (\d+))?\*\*/);
         if (lootMatch) {
             const item: { item: string, quantity: number, type: string, stat?: number } = {
                 item: lootMatch[1].trim(),
@@ -26,18 +25,23 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             player.addToInventory(item);
         }
 
-        const removeMatch = message.content.match(/Remove Item: ([^\d]+)x(\d+)/)
+        const removeMatch = message.content.match(/\*\*Remove Item: (.*?) x(\d+)\*\*/)
         if (removeMatch) {
             const itemName = removeMatch[1].trim();
             const quantityToRemove = parseInt(removeMatch[2], 10);
             player.removeFromInventory(itemName, quantityToRemove)
         }
 
-        // React to "Entry: ..."
-        const entryMatch = message.content.match(/Entry: (.*)/);
+        const entryMatch = message.content.match(/\*\*Entry: (.*)\*\*/);
         if (entryMatch) {
             const entry = entryMatch[1];
             player.journal.push({ number: player.journal.length, entry });
+        }
+
+        const addAbilityMatch = message.content.match(/\*\*New Ability: ([\w\s]+)\*\*/);
+        if (addAbilityMatch) {
+            const ability = addAbilityMatch[1];
+            player.addAbility(ability)
         }
     }
 
@@ -61,7 +65,8 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             wpn: player.wpn,
             armor: player.armor,
             inventory: player.inventory,
-            journal: player.journal
+            journal: player.journal,
+            otherAbilites: player.otherAbilities
         })
     })
     return player

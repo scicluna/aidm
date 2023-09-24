@@ -8,6 +8,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { PlayerBlock } from "@/utils/player";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 type characterSheetProps = {
     player: PlayerBlock
@@ -16,8 +17,8 @@ type characterSheetProps = {
 export default function CharacterSheet({ player }: characterSheetProps) {
     return (
         <Sheet>
-            <SheetTrigger className='fixed bottom-0 left-2 p-2 h-[10dvh] text-2xl font-extrabold  underline hover:text-gray-600'>Character Sheet</SheetTrigger>
-            <SheetContent side={'bottom'} className='h-[20dvh]'>
+            <SheetTrigger className='fixed bottom-0 left-2 p-2 h-[10dvh] text-2xl font-extrabold  underline dark:text-gray-100 hover:dark:text-gray-300 hover:text-gray-600'>Character Sheet</SheetTrigger>
+            <SheetContent side={'bottom'} className='h-[20dvh] bg-slate-900'>
                 <SheetHeader>
                     <SheetDescription>
                         <div className='flex gap-8'>
@@ -39,17 +40,29 @@ export default function CharacterSheet({ player }: characterSheetProps) {
                                 <p>wpn: {player.wpn}</p>
                                 <p>armor: {player.armor}</p>
                             </div>
-                            <div className='flex flex-col text-justify w-1/2 flex-wrap'>
-                                <SheetTitle>Inventory</SheetTitle>
-                                {player.inventory && player.inventory.map(item => (
-                                    <p key={item.item} className='w-fit'> {item.quantity}x {item.item} {item.type} {item.stat ?? null}</p>
-                                ))}
+                            <div className='flex flex-col text-justify overflow-y-auto'>
+                                <SheetTitle>Specials</SheetTitle>
+                                <ScrollArea>
+                                    {player.otherAbilities && player.otherAbilities.map(ability => (
+                                        <p key={ability}>{ability}</p>
+                                    ))}
+                                </ScrollArea>
                             </div>
-                            <div className='flex flex-col text-justify overflow-auto'>
+                            <div className='flex flex-col text-justify flex-wrap overflow-y-auto'>
+                                <SheetTitle>Inventory</SheetTitle>
+                                <ScrollArea>
+                                    {player.inventory && player.inventory.map(item => (
+                                        <p key={item.item} className='w-fit'> {item.quantity}x {item.item} {item.type} {item.stat ?? null}</p>
+                                    ))}
+                                </ScrollArea>
+                            </div>
+                            <div className='flex flex-col text-justify overflow-y-auto'>
                                 <SheetTitle>Journal</SheetTitle>
-                                {player.journal && player.journal.map(entry => (
-                                    <p key={entry.number}>{entry.entry}</p>
-                                ))}
+                                <ScrollArea>
+                                    {player.journal && player.journal.map(entry => (
+                                        <p key={entry.number}>{entry.entry}</p>
+                                    ))}
+                                </ScrollArea>
                             </div>
                         </div>
                     </SheetDescription>

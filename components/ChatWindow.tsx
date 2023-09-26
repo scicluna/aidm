@@ -11,14 +11,14 @@ import Journal from './Journal';
 
 
 type ChatWindowProps = {
-    heroData: any | null
+    hero: PlayerBlock
+    darkMode: boolean
 }
 
-export default function Chatwindow({ heroData }: ChatWindowProps) {
-    const [player, setPlayer] = useState<PlayerBlock>(new PlayerBlock(heroData))
+export default function ChatWindow({ hero, darkMode }: ChatWindowProps) {
+    const [player, setPlayer] = useState<PlayerBlock>(hero)
     const [image, setImage] = useState<string | null>(null)
     const [imageLoading, setImageLoading] = useState(false)
-    const [darkMode, setDarkMode] = useState(true)
 
     const { messages, input, handleInputChange, handleSubmit, isLoading, } = useChat({
         onFinish: (async (message: Message) => {
@@ -60,7 +60,6 @@ export default function Chatwindow({ heroData }: ChatWindowProps) {
         <div className={`${darkMode ? 'dark' : 'light'}`}>
             <div className={`h-full w-full bg-purple-100 dark:bg-slate-900`}>
                 <div className={`mx-auto w-full flex flex-col relative`}>
-                    <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
                     <div className='flex gap-2 w-full h-full p-2'>
                         <div className='scrollbar h-[80dvh] w-2/3 flex flex-col gap-4 overflow-auto dark:text-gray-100 bg-gray-400 dark:bg-slate-700 bg-opacity-30' ref={chatContainer}>
                             {messages.map((m, i) => (
@@ -74,7 +73,11 @@ export default function Chatwindow({ heroData }: ChatWindowProps) {
                             <LeonardoImage imageurl={image} imageLoading={imageLoading} />
                         </div>
                     </div>
-                    <form onSubmit={handleSubmit} className='h-[10dvh] fixed w-full bottom-0 flex gap-4 justify-center items-center dark:bg-slate-900'>
+                    <form onSubmit={(e) => handleSubmit(e, {
+                        options: {
+                            body: { id: player.id }
+                        }
+                    })} className='h-[10dvh] fixed w-full bottom-0 flex gap-4 justify-center items-center dark:bg-slate-900'>
                         <input
                             autoComplete='off'
                             className="border border-gray-300 dark:border-slate-600 rounded shadow-xl p-2 w-1/3"

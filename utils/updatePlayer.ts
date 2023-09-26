@@ -78,6 +78,7 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            id: player.id,
             name: player.name,
             title: player.title,
             str: player.str,

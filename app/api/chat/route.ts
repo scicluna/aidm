@@ -35,11 +35,12 @@ AI:`;
  */
 export async function POST(req: NextRequest) {
     const body = await req.json();
+    const id = body.id
     const messages = body.messages ?? [];
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
     const currentMessageContent = messages[messages.length - 1].content;
 
-    const playerJson = await fetch("http://localhost:3000/api/player", { method: "GET" })
+    const playerJson = await fetch(`http://localhost:3000/api/player/${id}`, { method: "GET" })
     const player = await playerJson.json()
 
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);

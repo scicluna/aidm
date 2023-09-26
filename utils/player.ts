@@ -1,7 +1,8 @@
 import rollDice from "./diceroller.js"
 
 //mongodb input
-type HeroData = {
+export type HeroData = {
+    _id: string;
     name: string;
     title: string;
     str: number;
@@ -20,6 +21,7 @@ type HeroData = {
 
 //Player class
 export class PlayerBlock {
+    id: string;
     name: string;
     title: string;
     str: number;
@@ -36,9 +38,10 @@ export class PlayerBlock {
     otherAbilities: string[]
 
     //constructor to rehydrate or build anew
-    constructor(heroData: HeroData) {
+    constructor(heroData: HeroData, name: string) {
         if (heroData == null) {
-            this.name = "Hero"
+            this.id = ""
+            this.name = name
             this.title = "The Novice"
             this.str = rollDice('4d6d1');
             this.dex = rollDice('4d6d1');
@@ -53,6 +56,7 @@ export class PlayerBlock {
             this.journal = [{ number: 0, entry: "And so I headed out on my first adventure! I wonder what I will find!" }];
             this.otherAbilities = []
         } else {
+            this.id = heroData._id
             this.name = heroData.name;
             this.title = heroData.title;
             this.str = heroData.str;

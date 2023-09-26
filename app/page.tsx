@@ -1,23 +1,24 @@
 import ChatWindow from "@/components/ChatWindow";
+import Game from "@/components/Game";
 
 export default async function Home() {
 
-  //try to fetch heroData on server side
+  //grab all save slots or null
   let heroData: any;
   try {
-    const playerJson = await fetch("http://localhost:3000/api/player", {
+    const playerSaves = await fetch("http://localhost:3000/api/player", {
       method: "GET",
       cache: "no-store"
     })
-    const data = await playerJson.json()
-    heroData = data[0]
+    heroData = await playerSaves.json()
   } catch {
     heroData = null
   }
 
+  //Before chatwindow -> make load save file window
   return (
     <main className="pt-[10dvh] bg-purple-50">
-      <ChatWindow heroData={heroData} />
+      <Game heroData={heroData} />
     </main>
   )
 }

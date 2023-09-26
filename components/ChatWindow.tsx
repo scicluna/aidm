@@ -6,8 +6,8 @@ import { updatePlayer } from '@/utils/updatePlayer';
 import CharacterSheet from '@/components/CharacterSheet';
 import LeonardoImage from '@/components/LeonardoImage';
 import { buildImage, getImage } from '@/utils/buildImage';
-import { ScrollArea } from "@/components/ui/scroll-area"
 import Navbar from './Navbar';
+import Journal from './Journal';
 
 
 type ChatWindowProps = {
@@ -86,6 +86,7 @@ export default function Chatwindow({ heroData }: ChatWindowProps) {
                         <button className='bg-purple-600 dark:text-gray-100 dark:bg-purple-950 px-4 py-2 rounded-full hover:bg-purple-500 hover:dark:bg-purple-800' type="submit" disabled={isLoading}>Send</button>
                     </form>
                     <CharacterSheet player={player} />
+                    <Journal journal={player.journal} />
                 </div>
             </div>
         </div>

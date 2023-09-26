@@ -79,6 +79,8 @@ export async function POST(req: NextRequest) {
     To remove an item from a player say '**Remove Item: (item name)x(how many to remove)**' This should happen when items are consumed or lost.
     When important events happen or quests are established end the message with: '**Entry: (this is the thing that happened or is important.)**'
     To add additional abilities to the player say '**New Ability: (ability name)**'
+    To change a player's stats say '**Change: (STR/DEX/CON/INT/WIS/CHA) (+-)X**'
+    To add a title to the player say '**Add title: (title)**'
     Make sure to take actions when appropriate.`
 
     //Initial Rules/Prompt
@@ -92,7 +94,7 @@ export async function POST(req: NextRequest) {
     To level up a player say '**Level Up**'. Only reward level ups for milestone moments. 
     To give an item to the player say '**Loot: (itemname) x(quantity) (msc|armor|wpn) (stat? if armor or wpn 1 is bad 10 is legendary)**This should happen whenever a player picks up an item or receives loot.
     To remove an item from a player say '**Remove Item: (item name)x(how many to remove)**' This should happen when items are consumed or lost.
-    When important events happen or quests are established end the message with: '**Entry: (this is the thing that happened or is important.)**'
+    After every message summarize your message with a journal entry: '**Entry: (this is the thing that happened or is important.)**'
     To add additional abilities to the player say '**New Ability: (ability name)**'
     Additional Rules:
     Begin messages with a 10-20 word description of the scene's surroundings

@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/sheet"
 import { PlayerBlock } from "@/utils/player";
 
-type characterSheetProps = {
+type CharacterSheetProps = {
     player: PlayerBlock
 }
 
-export default function CharacterSheet({ player }: characterSheetProps) {
+export default function CharacterSheet({ player }: CharacterSheetProps) {
     return (
         <Sheet>
             <SheetTrigger className='fixed bottom-0 left-2 p-2 h-[10dvh] text-2xl font-extrabold  underline dark:text-gray-100 hover:dark:text-gray-300 hover:text-gray-600'>Character Sheet</SheetTrigger>
@@ -52,14 +52,6 @@ export default function CharacterSheet({ player }: characterSheetProps) {
                                 <div>
                                     {player.inventory && player.inventory.map(item => (
                                         <p key={item.item} className='w-fit'> {item.quantity}x {item.item} {item.type} {item.stat ?? null}</p>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='flex flex-col text-justify h-full'>
-                                <SheetTitle>Journal</SheetTitle>
-                                <div className="overflow-y-scroll h-[80%] scrollbar">
-                                    {player.journal && player.journal.map(entry => (
-                                        <p key={entry.number}>{entry.entry}</p>
                                     ))}
                                 </div>
                             </div>

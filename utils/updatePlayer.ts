@@ -11,9 +11,9 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
 
         // React to **Loot: **
         const lootPattern = /\*\*Loot: (.*?) x(\d+) \(?(\w+)\)?(?: (\d+))?\*\*/g;
-        let lootMatch;
+        const lootMatches = Array.from(message.content.matchAll(lootPattern));
 
-        while ((lootMatch = lootPattern.exec(message.content)) !== null) {
+        for (const lootMatch of lootMatches) {
             const item: { item: string, quantity: number, type: string, stat?: number } = {
                 item: lootMatch[1].trim(),
                 quantity: parseInt(lootMatch[2], 10),
@@ -48,6 +48,27 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             const ability = addAbilityMatch[1];
             player.addAbility(ability)
         }
+
+        //React to **New Title: (title)**
+        const addNewTitleMatch = message.content.match(/\*\*New Title: ([^*]+)\*\*/)
+        if (addNewTitleMatch) {
+            const title = addNewTitleMatch[1]
+            player.addTitle(title)
+        }
+
+        const statPattern = /\*\*(STR|DEX|CON|INT|WIS|CHA): ([+-])(\d+)\*\*/g;
+        const statMatches = Array.from(message.content.matchAll(statPattern));
+        for (const newStatMatch of statMatches) {
+            const stat = newStatMatch[1];
+            const operand = newStatMatch[2];
+            const change = parseInt(newStatMatch[3], 10);
+
+            if (operand === "+") {
+                player.changeStat(stat, change);
+            } else {
+                player.changeStat(stat, -change);
+            }
+        }
     }
 
     //update player after each message prompt finishes processing
@@ -57,6 +78,8 @@ export async function updatePlayer(message: Message, player: PlayerBlock) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            name: player.name,
+            title: player.title,
             str: player.str,
             dex: player.dex,
             con: player.con,

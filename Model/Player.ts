@@ -13,6 +13,12 @@ const JournalSchema = new Schema({
 });
 
 const PlayerSchema = new Schema({
+    name: {
+        type: String
+    },
+    title: {
+        type: String
+    },
     str: {
         type: Number
     },

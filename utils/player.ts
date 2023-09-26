@@ -2,6 +2,8 @@ import rollDice from "./diceroller.js"
 
 //mongodb input
 type HeroData = {
+    name: string;
+    title: string;
     str: number;
     dex: number;
     con: number;
@@ -18,6 +20,8 @@ type HeroData = {
 
 //Player class
 export class PlayerBlock {
+    name: string;
+    title: string;
     str: number;
     dex: number;
     con: number;
@@ -34,6 +38,8 @@ export class PlayerBlock {
     //constructor to rehydrate or build anew
     constructor(heroData: HeroData) {
         if (heroData == null) {
+            this.name = "Hero"
+            this.title = "The Novice"
             this.str = rollDice('4d6d1');
             this.dex = rollDice('4d6d1');
             this.con = rollDice('4d6d1');
@@ -47,6 +53,8 @@ export class PlayerBlock {
             this.journal = [{ number: 0, entry: "And so I headed out on my first adventure! I wonder what I will find!" }];
             this.otherAbilities = []
         } else {
+            this.name = heroData.name;
+            this.title = heroData.title;
             this.str = heroData.str;
             this.dex = heroData.dex;
             this.con = heroData.con;
@@ -73,11 +81,15 @@ export class PlayerBlock {
     }
 
     get atk(): number {
-        return this.lvl + Math.max(Math.floor((this.str - 10) / 2), Math.floor((this.dex - 10) / 2));
+        return this.lvl + Math.max(Math.floor((this.str - 10) / 2), Math.floor((this.dex - 10) / 2)) + this.wpn;
     }
 
     get dmg(): number {
         return Math.max(Math.floor((this.str - 10) / 2), Math.floor((this.dex - 10) / 2)) + this.wpn;
+    }
+
+    get prof(): number {
+        return Math.ceil(this.lvl / 2)
     }
 
     //not well tested at this time - should use the best wpn or armor in your inventory
@@ -148,6 +160,42 @@ export class PlayerBlock {
     addAbility(abilityName: string): void {
         if (abilityName) {
             this.otherAbilities.push(abilityName)
+        }
+    }
+
+    addName(name: string): void {
+        if (name) {
+            this.name = name
+        }
+    }
+
+    addTitle(title: string): void {
+        if (title) {
+            this.title = title
+        }
+    }
+
+    changeStat(stat: string, change: number): void {
+        switch (stat) {
+            case "STR": {
+                this.str += change
+            }
+            case "DEX": {
+                this.dex += change
+            }
+            case "CON": {
+                this.con += change
+            }
+            case "INT": {
+                this.int += change
+            }
+            case "WIS": {
+                this.wis += change
+            }
+            case "CHA": {
+                this.cha += change
+            }
+            default: break;
         }
     }
 }

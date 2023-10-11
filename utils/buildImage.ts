@@ -1,11 +1,11 @@
 //generates an image and returns its ID
-export async function buildImage(lastMessage: string) {
+export async function buildImage(promptMessage: string) {
     const url = await fetch('/api/leo', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ lastMessage: lastMessage })
+        body: JSON.stringify({ promptMessage: promptMessage })
     })
     const imageId = await url.json()
     return imageId

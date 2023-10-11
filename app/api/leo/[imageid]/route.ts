@@ -31,7 +31,7 @@ export async function GET(req: Request, { params }: Params) {
         }
 
         attempts++;
-        await new Promise(resolve => setTimeout(resolve, 4000)); // 4 second delay
+        await new Promise(resolve => setTimeout(resolve, 3000)); // 3 second delay
     }
     console.error("TIMEOUT")
     return new Response('Request Timeout', { status: 400 })

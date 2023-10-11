@@ -20,7 +20,7 @@ export default function HeroSelect({ heroData, selectHero, createNewHero }: Hero
         <div className="flex flex-col text-2xl font-extrabold pt-20 gap-2 justify-start items-center w-full h-[90dvh] dark:text-white bg-purple-200 dark:bg-slate-900">
             <h1 className="py-10 text-4xl">SELECT YOUR HERO</h1>
             {heroData && heroData.map((hero, i) => (
-                <button className="py-2 px-4 rounded-md max-w-md hover:bg-slate-800 dark:bg-slate-950 bg-slate-400 transition-all" key={hero?._id}
+                <button className="py-2 px-4 rounded-md max-w-md dark:hover:bg-slate-800 dark:bg-slate-950 bg-slate-400 hover:bg-slate-300 transition-all" key={hero?._id}
                     onClick={() => selectHero(i)}>
                     <b>{hero?.name}</b> {hero?.title} {hero?.lvl}
                 </button>

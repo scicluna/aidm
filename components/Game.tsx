@@ -13,6 +13,7 @@ type GameProps = {
 export default function Game({ heroData }: GameProps) {
     const [darkMode, setDarkMode] = useState<boolean>(true)
     const [hero, setHero] = useState<PlayerBlock | null>(null)
+    const [newPlayer, setNewPlayer] = useState<boolean>(false)
 
     function selectHero(heroIndex: number) {
         const selectedHero = heroData[heroIndex]
@@ -22,13 +23,14 @@ export default function Game({ heroData }: GameProps) {
     function createNewHero(e: React.FormEvent, name: string) {
         e.preventDefault()
         setHero(new PlayerBlock(null, name))
+        setNewPlayer(true)
     }
 
     return (
         <main className={`${darkMode ? 'dark' : 'light'} h-full w-full `}>
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
             {hero
-                ? <ChatWindow hero={hero} darkMode={darkMode} />
+                ? <ChatWindow newPlayer={newPlayer} hero={hero} darkMode={darkMode} />
                 : <HeroSelect heroData={heroData} selectHero={selectHero} createNewHero={createNewHero} />}
         </main>
     )

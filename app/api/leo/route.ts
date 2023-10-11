@@ -13,15 +13,15 @@ export async function POST(req: Request) {
     const parsedreq = await req.json()
 
     //handle our prompt
-    let { lastMessage } = parsedreq
-    let promptMessage = 'dnd art stylized artwork illustration bold-lines art high quality vector illustration landscapes ' + lastMessage.slice(0, Math.min(lastMessage.length, 85))
+    let { promptMessage } = parsedreq
+    let processedPromptMessage = 'dnd art stylized artwork illustration bold-lines art high quality vector illustration landscapes ' + promptMessage.slice(0, Math.min(promptMessage.length, 85))
 
     //call the leonardo api and return the image id
     try {
         const data = await sdk.generation.createGeneration({
             height: 800,
             modelId: '6bef9f1b-29cb-40c7-b9df-32b51c1f67d3',
-            prompt: promptMessage,
+            prompt: processedPromptMessage,
             width: 800,
             promptMagic: true,
             promptMagicVersion: 'v2',

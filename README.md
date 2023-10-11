@@ -31,7 +31,7 @@ Get an api key from Leonardo AI -- https://app.leonardo.ai/settings (warning: no
 
 Set up an .env file with the necessary environment variables (outlined in exampleenv.txt).
 
-To start the development server, run npm run dev in your terminal.
+To start the development server, run npm dev in your terminal.
 
 Visit localhost:3000 in your browser to view the application.
 
@@ -41,7 +41,7 @@ I welcome all kinds of contributions! Please feel free to contribute by opening 
 ## License
 AIDM is open-source and is licensed under the MIT License.
 
-For any further questions, you can reach out to the me directly. Happy coding!
+For any further questions, you can reach out to me directly. Happy coding!
 
 ## Other
 If you are interested in starting a new adventure, delete your player document in MongoDB

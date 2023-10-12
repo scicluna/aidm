@@ -17,23 +17,24 @@ Frontend: The user interface of AIDM is handled with NextJS 13
 Backend: The backend is powered by MongoDB and NextJS 13
 
 ## Getting Started
+**First install nodeJS and Python**
 To get AIDM running locally on your machine, please follow the steps below:
 
-Clone the repository to your local machine.
+1. Clone the repository to your local machine.
 
-Install the dependencies by running npm install in your terminal.
+2. Install the dependencies by running `npm i` in your terminal.
 
-Initialize your Mongodb Atlas cluster -- https://www.mongodb.com/atlas/database
+3. Initialize your Mongodb Atlas cluster -- https://www.mongodb.com/atlas/database
 
-Get an api key from Open AI -- https://platform.openai.com/overview (warning: not free)
+4. Get an api key from Open AI -- https://platform.openai.com/overview (warning: not free)
 
-Get an api key from Leonardo AI -- https://app.leonardo.ai/settings (warning: not free - you may want to not use this functionality or replace it with your own preferred model)
+5. Get an api key from Leonardo AI -- https://app.leonardo.ai/settings (warning: not free - you may want to not use this functionality or replace it with your own preferred model)
 
-Set up an .env file with the necessary environment variables (outlined in exampleenv.txt).
+6. Set up an .env file with the necessary environment variables (outlined in exampleenv.txt).
 
-To start the development server, run npm run dev in your terminal.
+7. To start the development server, `npm run dev` in your terminal.
 
-Visit localhost:3000 in your browser to view the application.
+8. Visit localhost:3000 in your browser to view the application.
 
 ## Contributions
 I welcome all kinds of contributions! Please feel free to contribute by opening issues, suggesting features, updating documentation, or even fixing bugs.
